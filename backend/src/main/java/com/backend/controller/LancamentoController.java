@@ -1,5 +1,6 @@
 package com.backend.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
+import java.util.List;
 
 import com.backend.entity.Lancamento;
 import com.backend.service.LancamentoService;
@@ -25,6 +33,7 @@ public class LancamentoController {
         this.lancamentoService = lancamentoService;
     }
 
+    // Criar lançamento
     @PostMapping
     public ResponseEntity<Void> save(
             @RequestBody Lancamento lancamento) {
@@ -34,23 +43,28 @@ public class LancamentoController {
         return ResponseEntity.ok().build();
     }
 
+    // Buscar todos os lançamentos
     @GetMapping
     public ResponseEntity<List<Lancamento>> findAll() {
 
-        List<Lancamento> lancamentos = lancamentoService.findAll();
+        List<Lancamento> lancamentos =
+                lancamentoService.findAll();
 
         return ResponseEntity.ok(lancamentos);
     }
 
+    // Buscar lançamento por ID
     @GetMapping("/{id}")
     public ResponseEntity<Lancamento> findById(
             @PathVariable Long id) {
 
-        Lancamento lancamento = lancamentoService.findById(id);
+        Lancamento lancamento =
+                lancamentoService.findById(id);
 
         return ResponseEntity.ok(lancamento);
     }
 
+    // Atualizar lançamento
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(
             @PathVariable Long id,
@@ -59,18 +73,36 @@ public class LancamentoController {
         Lancamento lancamentoExistente =
                 lancamentoService.findById(id);
 
-        lancamentoExistente.setDescricao(lancamento.getDescricao());
-        lancamentoExistente.setValor(lancamento.getValor());
-        lancamentoExistente.setData(lancamento.getData());
-        lancamentoExistente.setTipo(lancamento.getTipo());
-        lancamentoExistente.setCategoria(lancamento.getCategoria());
-        lancamentoExistente.setConta(lancamento.getConta());
+        lancamentoExistente.setDescricao(
+                lancamento.getDescricao()
+        );
+
+        lancamentoExistente.setValor(
+                lancamento.getValor()
+        );
+
+        lancamentoExistente.setData(
+                lancamento.getData()
+        );
+
+        lancamentoExistente.setTipo(
+                lancamento.getTipo()
+        );
+
+        lancamentoExistente.setCategoria(
+                lancamento.getCategoria()
+        );
+
+        lancamentoExistente.setData(
+                (LocalDate) lancamento.getConta()
+        );
 
         lancamentoService.save(lancamentoExistente);
 
         return ResponseEntity.ok().build();
     }
 
+    // Excluir lançamento
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(
             @PathVariable Long id) {

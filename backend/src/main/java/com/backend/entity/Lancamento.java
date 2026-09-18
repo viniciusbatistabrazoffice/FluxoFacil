@@ -1,8 +1,18 @@
 package com.backend.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "lancamento")
@@ -12,7 +22,7 @@ public class Lancamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String descricao;
 
     @Column(nullable = false, precision = 15, scale = 2)
@@ -25,22 +35,27 @@ public class Lancamento {
     @Column(nullable = false)
     private TipoLancamento tipo;
 
-    @Column(nullable = false)
-    private String categoria;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 
-    private String observacao;
+    @ManyToOne
+    @JoinColumn(name = "conta_id", nullable = false)
+    private Conta conta;
 
+    // Construtor padrão
     public Lancamento() {
     }
 
+    // Construtor completo
     public Lancamento(
             Long id,
             String descricao,
             BigDecimal valor,
             LocalDate data,
             TipoLancamento tipo,
-            String categoria,
-            String observacao) {
+            Categoria categoria,
+            Conta conta) {
 
         this.id = id;
         this.descricao = descricao;
@@ -48,9 +63,10 @@ public class Lancamento {
         this.data = data;
         this.tipo = tipo;
         this.categoria = categoria;
-        this.observacao = observacao;
+        this.conta = conta;
     }
 
+    // ID
     public Long getId() {
         return id;
     }
@@ -59,6 +75,7 @@ public class Lancamento {
         this.id = id;
     }
 
+    // DESCRIÇÃO
     public String getDescricao() {
         return descricao;
     }
@@ -67,6 +84,7 @@ public class Lancamento {
         this.descricao = descricao;
     }
 
+    // VALOR
     public BigDecimal getValor() {
         return valor;
     }
@@ -75,6 +93,7 @@ public class Lancamento {
         this.valor = valor;
     }
 
+    // DATA
     public LocalDate getData() {
         return data;
     }
@@ -83,6 +102,7 @@ public class Lancamento {
         this.data = data;
     }
 
+    // TIPO
     public TipoLancamento getTipo() {
         return tipo;
     }
@@ -91,19 +111,21 @@ public class Lancamento {
         this.tipo = tipo;
     }
 
-    public String getCategoria() {
+    // CATEGORIA
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
-    public String getObservacao() {
-        return observacao;
+    // CONTA
+    public Conta getConta() {
+        return conta;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 }
