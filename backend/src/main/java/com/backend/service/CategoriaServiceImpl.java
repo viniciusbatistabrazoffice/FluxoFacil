@@ -2,32 +2,46 @@ package com.backend.service;
 
 import java.util.List;
 
-import com.backend.entity.Categoria;
+import org.springframework.stereotype.Service;
 
+import com.backend.entity.Categoria;
+import com.backend.repository.CategoriaRepository;
+
+@Service
 public class CategoriaServiceImpl implements CategoriaService {
+
+    private final CategoriaRepository categoriaRepository;
+
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
+    }
 
     @Override
     public void save(Categoria categoria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        categoriaRepository.save(categoria);
     }
 
     @Override
     public List<Categoria> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return categoriaRepository.findAll();
     }
 
     @Override
     public Categoria findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(
+                        "Categoria não encontrada com o ID: " + id
+                ));
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        if (!categoriaRepository.existsById(id)) {
+            throw new RuntimeException(
+                    "Categoria não encontrada com o ID: " + id
+            );
+        }
+
+        categoriaRepository.deleteById(id);
     }
-    
 }
