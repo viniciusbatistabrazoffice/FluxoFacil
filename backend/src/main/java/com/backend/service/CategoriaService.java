@@ -6,6 +6,5 @@ public interface CategoriaService {
     public void save(Categoria categoria);
     public List<Categoria> findAll();
     public Categoria findById(Long id);
-    public void deleteById(Long id);
-    
+    public void deleteById(Long id);    
 }
