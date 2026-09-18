@@ -2,32 +2,50 @@ package com.backend.service;
 
 import java.util.List;
 
-import com.backend.entity.Lancamento;
+import org.springframework.stereotype.Service;
 
+import com.backend.entity.Lancamento;
+import com.backend.repository.LancamentoRepository;
+
+@Service
 public class LancamentoServiceImpl implements LancamentoService {
+
+    private final LancamentoRepository lancamentoRepository;
+
+    public LancamentoServiceImpl(LancamentoRepository lancamentoRepository) {
+        this.lancamentoRepository = lancamentoRepository;
+    }
 
     @Override
     public void save(Lancamento lancamento) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+
+        lancamentoRepository.save(lancamento);
     }
 
     @Override
     public List<Lancamento> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+
+        return lancamentoRepository.findAll();
     }
 
     @Override
     public Lancamento findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+
+        return lancamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(
+                        "Lançamento não encontrado com o ID: " + id
+                ));
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+
+        if (!lancamentoRepository.existsById(id)) {
+            throw new RuntimeException(
+                    "Lançamento não encontrado com o ID: " + id
+            );
+        }
+
+        lancamentoRepository.deleteById(id);
     }
-    
 }

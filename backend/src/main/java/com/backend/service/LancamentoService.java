@@ -1,11 +1,16 @@
 package com.backend.service;
 
-import com.backend.entity.Lancamento;
 import java.util.List;
 
+import com.backend.entity.Lancamento;
+
 public interface LancamentoService {
-    public void save(Lancamento lancamento);
-    public List<Lancamento> findAll();
-    public Lancamento findById(Long id);
-    public void deleteById(Long id);
+
+    void save(Lancamento lancamento);
+
+    List<Lancamento> findAll();
+
+    Lancamento findById(Long id);
+
+    void deleteById(Long id);
 }
