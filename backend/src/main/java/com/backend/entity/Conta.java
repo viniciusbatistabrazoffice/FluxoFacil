@@ -1,22 +1,28 @@
 package com.backend.entity;
 
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "conta")
 public class Conta {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 100)
     private String titular;
-    private Double saldo;
+
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal saldo;
 
     public Conta() {
+        this.saldo = BigDecimal.ZERO;
     }
 
-    public Conta(Long id, String titular, Double saldo) {
+    public Conta(Long id, String titular, BigDecimal saldo) {
         this.id = id;
         this.titular = titular;
         this.saldo = saldo;
@@ -38,11 +44,11 @@ public class Conta {
         this.titular = titular;
     }
 
-    public Double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 }
